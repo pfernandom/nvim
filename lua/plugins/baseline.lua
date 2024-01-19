@@ -25,9 +25,6 @@ return {
     opts = { use_diagnostic_signs = true },
   },
 
-  -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
-
   -- add symbols-outline
   {
     "simrat39/symbols-outline.nvim",
@@ -101,9 +98,6 @@ return {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
         tsserver = {},
         pyright = {},
-        jdtls = function()
-          return true
-        end,
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -188,10 +182,12 @@ return {
   -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
   { import = "lazyvim.plugins.extras.lang.json" },
 
+  { "williamboman/mason-lspconfig.nvim", opts = { ensure_installed = { "lua_ls", "rust_analyzer" } } },
+
   -- add any tools you want to have installed below
   {
     "williamboman/mason.nvim",
-     dependencies = { "williamboman/mason-lspconfig.nvim", ensure_installed = { "lua_ls", "rust_analyzer" }  },
+    dependencies = { "williamboman/mason-lspconfig.nvim" },
 
     opts = {
       ensure_installed = {
@@ -204,7 +200,6 @@ return {
       },
     },
   },
-
 
   {
     "folke/persistence.nvim",
@@ -269,4 +264,36 @@ return {
       })
     end,
   },
+  { "vim-test/vim-test" },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      filesystem = {
+        filtered_items = {
+          visible = true, -- when true, they will just be displayed differently than normal items
+          hide_dotfiles = false,
+          hide_gitignored = true,
+          hide_hidden = true, -- only works on Windows for hidden files/directories
+          hide_by_name = {
+            "node_modules",
+          },
+        },
+      },
+    },
+  },
+  { "f-person/git-blame.nvim" },
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
+  { "natecraddock/workspaces.nvim" },
+
+  { "neoclide/npm.nvim" },
+
+  { "folke/todo-comments.nvim" },
+
+  { "sudormrfbin/cheatsheet.nvim" },
 }
