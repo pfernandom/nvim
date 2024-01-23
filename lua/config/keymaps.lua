@@ -45,3 +45,10 @@ end)
 vim.keymap.set("n", "<leader>p", function()
   require("telescope").extensions.projects.projects({})
 end, { desc = "Open projects menu" })
+
+-- Obsidian
+vim.keymap.set("n", "<leader>oo", ":ObsidianWorkspace <CR><leader>E", { desc = "Onsidian workspace", remap = true })
+vim.keymap.set("n", "<leader>ot", ":ObsidianToday<CR>", { desc = "Onsidian dailies (today)", remap = true })
+vim.keymap.set("n", "<leader>oT", ":ObsidianTomorrow<CR>", { desc = "Onsidian dailies (tomrrow)", remap = true })
+vim.keymap.set("n", "<leader>oY", ":ObsidianYesterday<CR>", { desc = "Onsidian dailies (yesterday)", remap = true })
+vim.keymap.set("n", "<leader>oS", ":ObsidianSearch<CR>", { desc = "Onsidian search", remap = true })
