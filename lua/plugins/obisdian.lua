@@ -30,6 +30,10 @@ return {
         name = "neovim",
         path = "~/Documents/Vaulrs/nvim",
       },
+      {
+        name = "books",
+        path = "~/Documents/Vaulrs/books",
+      },
     },
 
     -- see below for full list of options 👇

@@ -1,20 +1,67 @@
--- since this is just an example spec, don't actually load anything here and return an empty spec
-
--- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
---
--- In your plugin files, you can:
--- * add extra plugins
--- * disable/enabled LazyVim plugins
--- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+  -- -- add gruvbox
+  -- {
+  --   "ellisonleao/gruvbox.nvim",
+  --   opts = {
+  --     terminal_colors = true,
+  --     transparent_mode = false,
+  --   },
+  -- },
 
-  -- Configure LazyVim to load gruvbox
+  {
+    "xiyaowong/transparent.nvim",
+    opts = {
+      extra_groups = {
+        "NormalFloat", -- plugins which have float panel such as Lazy, Mason, LspInfo
+        "NvimTreeNormal", -- NvimTree
+      },
+    },
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = true,
+    -- priority = 1000,
+    opts = {
+      flavour = "mocha",
+      background = {
+        dark = "mocha",
+      },
+      -- dim_inactive = {
+      --  enabled = true, -- dims the background color of inactive window
+      --  shade = "dark",
+      --  percentage = 0.15, -- percentage of the shade to apply to the inactive window
+      --},
+      transparent_background = true,
+      custom_highlights = function(color)
+        return {
+          NormalFloat = { fg = color.text, bg = color.none },
+        }
+      end,
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = true,
+        mini = {
+          enabled = true,
+          indentscope_color = "",
+        },
+      },
+    },
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "catppuccin",
+    },
+  },
+
+  {
+    "folke/which-key.nvim",
+    opts = {
+      show_keys = true,
     },
   },
 
@@ -78,42 +125,6 @@ return {
     },
   },
 
-  -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-        pyright = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
-
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
   { import = "lazyvim.plugins.extras.lang.typescript" },
@@ -152,7 +163,11 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
+        "java",
+        "markdown",
       })
+      vim.treesitter.language.register("markdown", "mdx")
+      vim.treesitter.language.register("groovy", "gradle")
     end,
   },
 
@@ -161,36 +176,47 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, "😄")
+      -- table.insert(opts.sections.lualine_x, "😄")
     end,
   },
 
-  -- or you can return new options to override all the defaults
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return {
-        --[[add your custom lualine config here]]
-      }
-    end,
-  },
-
-  -- use mini.starter instead of alpha
-  --{ import = "lazyvim.plugins.extras.ui.mini-starter" },
-
-  -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
+  { import = "lazyvim.plugins.extras.lang.java" },
   { import = "lazyvim.plugins.extras.lang.json" },
 
-  { "williamboman/mason-lspconfig.nvim", opts = { ensure_installed = { "lua_ls", "rust_analyzer" } } },
+  { "hdiniz/vim-gradle" },
 
-  -- add any tools you want to have installed below
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      diagnostics = {
+        underline = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
+          },
+        },
+      },
+      servers = {
+        marksman = {},
+      },
+      settings = {
+        Lua = {
+          diagnostics = { globals = { "vim" } },
+        },
+      },
+    },
+  },
+
   {
     "williamboman/mason.nvim",
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
 
     opts = {
       ensure_installed = {
+        "markdownlint",
+        "marksman",
         "stylua",
         "shellcheck",
         "shfmt",
@@ -199,6 +225,11 @@ return {
         "java-debug-adapter",
       },
     },
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = { ensure_installed = { "lua_ls", "rust_analyzer", "gradle_ls" } },
   },
 
   {
@@ -283,17 +314,55 @@ return {
     },
   },
   { "f-person/git-blame.nvim" },
+  { "natecraddock/workspaces.nvim" },
+  { "neoclide/npm.nvim" },
+  { "folke/todo-comments.nvim" },
+  { "folke/neodev.nvim", opts = {} },
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "rcasia/neotest-java",
+    },
+  },
 
   {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    "rcasia/neotest-java",
   },
-  { "natecraddock/workspaces.nvim" },
-
-  { "neoclide/npm.nvim" },
-
-  { "folke/todo-comments.nvim" },
 
   { "sudormrfbin/cheatsheet.nvim" },
+
+  {
+    "s1n7ax/nvim-window-picker",
+    name = "window-picker",
+    event = "VeryLazy",
+    version = "2.*",
+    config = function()
+      require("window-picker").setup()
+    end,
+  },
+  --{ "ixru/nvim-markdown" },
+  {
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {
+      markdown = {
+        headline_highlights = { "Headline" },
+        dash_string = "-",
+        fat_headline_lower_string = "▔",
+      },
+    },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        markdown = { "markdownlint" },
+      },
+    },
+  },
 }
