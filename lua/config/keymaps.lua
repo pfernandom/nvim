@@ -23,3 +23,5 @@ vim.keymap.set("n", "<leader>oT", ":ObsidianTomorrow<CR>", { desc = "Obsidian da
 vim.keymap.set("n", "<leader>oY", ":ObsidianYesterday<CR>", { desc = "Obsidian dailies (yesterday)", remap = true })
 vim.keymap.set("n", "<leader>oS", ":ObsidianSearch<CR>", { desc = "Obsidian search", remap = true })
 vim.keymap.set("n", "<leader>ow", ":ObsidianWorkspaces<CR>", { desc = "All Obsidian workspaces" })
+
+vim.keymap.set("n", "<leader>wt", ":hor terminal<CR>i", { desc = "Toggle terminal" })

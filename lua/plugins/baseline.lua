@@ -1,56 +1,4 @@
 return {
-  -- -- add gruvbox
-  -- {
-  --   "ellisonleao/gruvbox.nvim",
-  --   opts = {
-  --     terminal_colors = true,
-  --     transparent_mode = false,
-  --   },
-  -- },
-
-  {
-    "xiyaowong/transparent.nvim",
-    opts = {
-      extra_groups = {
-        "NormalFloat", -- plugins which have float panel such as Lazy, Mason, LspInfo
-        "NvimTreeNormal", -- NvimTree
-      },
-    },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = true,
-    -- priority = 1000,
-    opts = {
-      flavour = "mocha",
-      background = {
-        dark = "mocha",
-      },
-      -- dim_inactive = {
-      --  enabled = true, -- dims the background color of inactive window
-      --  shade = "dark",
-      --  percentage = 0.15, -- percentage of the shade to apply to the inactive window
-      --},
-      transparent_background = true,
-      custom_highlights = function(color)
-        return {
-          NormalFloat = { fg = color.text, bg = color.none },
-        }
-      end,
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        treesitter = true,
-        notify = true,
-        mini = {
-          enabled = true,
-          indentscope_color = "",
-        },
-      },
-    },
-  },
   {
     "LazyVim/LazyVim",
     opts = {
@@ -125,112 +73,9 @@ return {
     },
   },
 
-  -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
-  -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-
-  -- add more treesitter parsers
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "bash",
-        "html",
-        "java",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
-      },
-    },
-  },
-
-  -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
-  -- would overwrite `ensure_installed` with the new value.
-  -- If you'd rather extend the default config, use the code below instead:
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      -- add tsx and treesitter
-      vim.list_extend(opts.ensure_installed, {
-        "tsx",
-        "typescript",
-        "java",
-        "markdown",
-      })
-      vim.treesitter.language.register("markdown", "mdx")
-      vim.treesitter.language.register("groovy", "gradle")
-    end,
-  },
-
   -- the opts function can also be used to change the default opts:
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function(_, opts)
-      -- table.insert(opts.sections.lualine_x, "😄")
-    end,
-  },
-
   { import = "lazyvim.plugins.extras.lang.java" },
   { import = "lazyvim.plugins.extras.lang.json" },
-
-  { "hdiniz/vim-gradle" },
-
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      diagnostics = {
-        underline = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
-            [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
-            [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
-          },
-        },
-      },
-      servers = {
-        marksman = {},
-      },
-      settings = {
-        Lua = {
-          diagnostics = { globals = { "vim" } },
-        },
-      },
-    },
-  },
-
-  {
-    "williamboman/mason.nvim",
-
-    opts = {
-      ensure_installed = {
-        "markdownlint",
-        "marksman",
-        "stylua",
-        "shellcheck",
-        "shfmt",
-        "flake8",
-        "java-test",
-        "java-debug-adapter",
-      },
-    },
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
-    opts = { ensure_installed = { "lua_ls", "rust_analyzer", "gradle_ls" } },
-  },
 
   {
     "folke/persistence.nvim",
@@ -308,6 +153,8 @@ return {
           hide_hidden = true, -- only works on Windows for hidden files/directories
           hide_by_name = {
             "node_modules",
+            "build",
+            "out",
           },
         },
       },
@@ -365,4 +212,6 @@ return {
       },
     },
   },
+
+  { "ziglang/zig.vim" },
 }
