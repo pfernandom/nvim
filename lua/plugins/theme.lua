@@ -10,11 +10,11 @@ return {
       background = {
         dark = "mocha",
       },
-      color_overrides = {
-        all = {
-          -- text = "#ffffff",
-        },
-      },
+      --color_overrides = {
+      --  all = {
+      -- text = "#ffffff",
+      --  },
+      --},
       -- dim_inactive = {
       --  enabled = true, -- dims the background color of inactive window
       --  shade = "dark",
@@ -28,7 +28,8 @@ return {
           NeotreeNormal = { bg = neotree_bg },
           NeotreeNormalNC = { bg = neotree_bg },
           NeotreeNormalFloat = { bg = neotree_bg },
-          NotifyINFOTitle3 = { fg = "#ffffff" },
+          -- NotifyINFOTitle3 = { fg = "#ffffff" },
+
           -- WinSeparator = { bg = "#111111", fg = "#222222" },
         }
       end,

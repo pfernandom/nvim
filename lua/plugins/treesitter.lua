@@ -26,6 +26,7 @@ return {
         "yaml",
         "nasm",
         "asm",
+        "elixir",
       },
     },
   },

@@ -25,3 +25,4 @@ vim.keymap.set("n", "<leader>oS", ":ObsidianSearch<CR>", { desc = "Obsidian sear
 vim.keymap.set("n", "<leader>ow", ":ObsidianWorkspaces<CR>", { desc = "All Obsidian workspaces" })
 
 vim.keymap.set("n", "<leader>wt", ":hor terminal<CR>i", { desc = "Toggle terminal" })
+vim.keymap.set("n", "<leader>cc", "gcc", { desc = "Comment code" })

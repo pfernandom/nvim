@@ -1,3 +1,5 @@
+local Util = require("lazyvim.util")
+
 return {
   {
     "LazyVim/LazyVim",
@@ -63,14 +65,14 @@ return {
 
   -- add telescope-fzf-native
   {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+    enabled = vim.fn.executable("make") == 1,
+    config = function()
+      Util.on_load("telescope.nvim", function()
         require("telescope").load_extension("fzf")
-      end,
-    },
+      end)
+    end,
   },
 
   -- the opts function can also be used to change the default opts:
@@ -173,9 +175,11 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
       "rcasia/neotest-java",
+      "nvim-neotest/neotest-jest",
     },
   },
-
+  { "David-Kunz/jester" },
+  { "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
   {
     "rcasia/neotest-java",
   },
