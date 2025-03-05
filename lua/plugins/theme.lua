@@ -35,6 +35,7 @@ return {
       end,
       integrations = {
         cmp = true,
+        blink_cmp = false,
         gitsigns = true,
         neotree = true,
         treesitter = true,

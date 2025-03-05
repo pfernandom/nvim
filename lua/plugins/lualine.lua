@@ -30,28 +30,25 @@ return {
           { Util.lualine.pretty_path() },
         },
         lualine_x = {
-        -- stylua: ignore
         {
           function() return require("noice").api.status.command.get() end,
           cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-          color = Util.ui.fg("Statement"),
-        },
-        -- stylua: ignore
+          color = function() return { fg = Snacks.util.color("Statement") } end,
+      },
         {
           function() return require("noice").api.status.mode.get() end,
           cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-          color = Util.ui.fg("Constant"),
+          color = function() return { fg = Snacks.util.color("Constant") } end,
         },
-        -- stylua: ignore
         {
           function() return "  " .. require("dap").status() end,
           cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
-          color = Util.ui.fg("Debug"),
+          color = function() return { fg = Snacks.util.color("Debug") } end,
         },
           {
             require("lazy.status").updates,
             cond = require("lazy.status").has_updates,
-            color = Util.ui.fg("Special"),
+            color = function() return { fg = Snacks.util.color("Special") } end,
           },
           {
             "diff",

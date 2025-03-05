@@ -166,7 +166,6 @@ return {
   { "natecraddock/workspaces.nvim" },
   { "neoclide/npm.nvim" },
   { "folke/todo-comments.nvim" },
-  { "folke/neodev.nvim", opts = {} },
   { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
   {
     "nvim-neotest/neotest",
@@ -218,4 +217,7 @@ return {
   },
 
   { "ziglang/zig.vim" },
+  {
+    "akinsho/bufferline.nvim",
+  },
 }

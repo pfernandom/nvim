@@ -6,7 +6,9 @@ local opt = vim.opt
 opt.conceallevel = 2
 
 vim.filetype.add({
-  extension = {
-    mdx = "mdx",
-  },
+    extension = {
+        mdx = "mdx"
+    }
 })
+
+vim.g.lazyvim_blink_main = true

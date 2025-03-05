@@ -20,22 +20,23 @@ return {
     workspaces = {
       {
         name = "quicknotes",
-        path = "~/Documents/Vaulrs/quicknotes",
+        path = "~/Documents/Vaults/quicknotes",
       },
       {
         name = "cpp",
-        path = "~/Documents/Vaulrs/cpp",
+        path = "~/Documents/Vaults/cpp",
       },
       {
         name = "neovim",
-        path = "~/Documents/Vaulrs/nvim",
+        path = "~/Documents/Vaults/nvim",
       },
       {
         name = "books",
-        path = "~/Documents/Vaulrs/books",
+        path = "~/Documents/Vaults/writting/",
       },
     },
 
+    ui = { enable = false  }
     -- see below for full list of options 👇
   },
 }
